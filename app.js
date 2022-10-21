@@ -19,6 +19,7 @@ class CalculateSumInArrayOfObject{
             for(let j in this.obj[i]){
                 if (!Array.isArray(this.obj[i][j])) return;
                 this.arr.push(...this.obj[i][j]);
+                this.deleteReferenceType(this.obj[i][j]);
             }
         }
         return this;
@@ -30,10 +31,22 @@ class CalculateSumInArrayOfObject{
     }
 
     getSumArrayElements(){
-      const sum = this.arrNumbers.reduce((acc, value)=> acc+ value, 0);
+      const sum = this.arrNumbers.reduce((acc, value)=> acc + value, 0);
         console.log(sum);
 
         return this
+    }
+
+    deleteReferenceType (arr){
+
+     const res = arr.reduce((acc,item, arr)=> {
+
+         if(item instanceof Object) return
+         acc.push(item)
+         return acc
+     },[])
+        console.log(res);
+        return res;
     }
 
 }
