@@ -1,56 +1,69 @@
 class CalculateSumInArrayOfObject{
     constructor() {
         this.obj = {
-                a: {
-                    a1:[1, 2, 3],
-                    a2: [4, false, 8]
-                },
-                b: {
-                    b1: [],
-                    b2: [{}, [], () => {}]
-                },
-                c: { c1: [8, 9, 4] }
+            a: {
+                a1:[1, 2, 3],
+                a2: [4, false, 8]
+            },
+            b: {
+                b1: [],
+                b2: [{}, [], () => {}]
+            },
+            c: {
+                c1: [8, 9, 4]
+            },
+            s: 20,
+            g: false,
+            v: '1020',
+            f: 'kds123j',
+            floatVal: '1123.678'
         }
-        this.arr = []
-        this.arrNumbers = []
+        this.arr = [];
+
     }
-    checkPropertiesOnArray(){
-        for(let i in this.obj){
-            for(let j in this.obj[i]){
-                if (!Array.isArray(this.obj[i][j])) return;
-                this.arr.push(...this.obj[i][j]);
-                this.deleteReferenceType(this.obj[i][j]);
+    checkPropertiesNode(node = this.obj){
+
+        for(let key in node){
+
+            let values = node[key];
+
+            if(typeof values === 'number'){
+                this.arr.push(values);
+
+            } else if(Array.isArray(values)){
+                this.arr.push(...values);
+
+            } else if (typeof values === 'string'){
+                const num = parseInt(values, 10);
+                if (!isNaN(num)){
+                    this.arr.push(num)
+                    }
+
+                }else if(typeof values === 'object'){
+
+                    this.checkPropertiesNode(values);
+
+                }
+
             }
-        }
-        return this;
-    }
-    checkElementsArrIsNumber(){
-         this.arrNumbers =  [...this.arr.filter(item=> typeof item === 'number')];
+        console.log(this.arr);
 
         return this;
+
+        }
+
+    filterElementsArray(){
+        return [...this.arr.filter(item => typeof item === 'number')];
     }
 
     getSumArrayElements(){
-      const sum = this.arrNumbers.reduce((acc, value)=> acc + value, 0);
+        const sum = this.filterElementsArray().reduce((acc, value)=> acc + value, 0);
         console.log(sum);
 
         return this
     }
 
-    deleteReferenceType (arr){
-
-     const res = arr.reduce((acc,item, arr)=> {
-
-         if(item instanceof Object) return
-         acc.push(item)
-         return acc
-     },[])
-        console.log(res);
-        return res;
-    }
-
 }
 new CalculateSumInArrayOfObject()
-    .checkPropertiesOnArray()
-    .checkElementsArrIsNumber()
+    .checkPropertiesNode()
     .getSumArrayElements()
