@@ -12,12 +12,10 @@ function displayCount(count) {
     console.log(count);
 }
 
-const step = counter(f);
-function f (value) {
-    return value*2
-}
-step();
-step();
-step();
+const step = counter(value => value*2);
+
+step(); //0
+step(); //1
+step(); //2
 
 
